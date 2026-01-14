@@ -4,6 +4,18 @@
 
 This project performs an end-to-end statistical analysis on an insurance dataset to understand what drives insurance costs. Using descriptive statistics, probability, hypothesis testing, and correlation analysis, the goal is to turn raw data into meaningful business insights.
 
+## Project Structure
+
+insurance-analysis/
+│-- data/
+│   └── insurance.csv
+│-- notebooks/
+│   └── analysis.ipynb
+│-- images/
+│   └── plots.png
+│-- README.md
+
+
 **Key Questions Answered:**
 
 * How are insurance charges distributed?
@@ -102,6 +114,26 @@ This project performs an end-to-end statistical analysis on an insurance dataset
 | Median  | 39    | 30.40 | 1        | 9,382.03  |
 | 75%     | 51    | 34.69 | 2        | 16,639.91 |
 | Max     | 64    | 53.13 | 5        | 63,770.43 |
+---
+
+
+| Variable | Variance    |
+| -------- | ----------- |
+| Age      | 197.40      |
+| BMI      | 37.19       |
+| Children | 1.45        |
+| Charges  | 146,652,400 |
+
+Charges show extremely high variance, meaning insurance costs differ widely across customers compared to other features.
+
+| Variable | Skewness | Interpretation          |
+| -------- | -------- | ----------------------- |
+| Age      | 0.056    | Almost symmetric        |
+| BMI      | 0.284    | Slightly right-skewed   |
+| Children | 0.938    | Moderately right-skewed |
+| Charges  | 1.516    | Highly right-skewed     |
+
+Insurance charges are strongly right-skewed, showing a small group of very expensive customers.
 
 ### Distribution Plots
 
@@ -159,39 +191,58 @@ High-cost defined as top 10% (90th percentile).
 
 ---
 
-## Hypothesis Testing (α = 0.05)
+# Hypothesis Testing (α = 0.05)
 
-### Smokers vs Non-Smokers
+## 1. Do Smokers Pay Significantly More Than Non-Smokers?
 
-| Metric  | Value       |
-| ------- | ----------- |
-| t-stat  | 32.75       |
-| p-value | 5.89e-103   |
-| Result  | Significant |
+| Metric  | Value     |
+|--------|-----------|
+| t-stat | 32.75     |
+| p-value| 5.89e-103 |
+| Result | Significant |
 
-### Male vs Female
+**Report:**  
+Since p < 0.05, we reject the null hypothesis. Smokers pay significantly higher insurance charges than non-smokers. This difference is extremely strong and not due to random chance.
 
-| Metric  | Value                  |
-| ------- | ---------------------- |
-| t-stat  | 2.10                   |
-| p-value | 0.0358                 |
-| Result  | Significant (moderate) |
+---
 
-### Region (ANOVA)
+## 2. Is There a Significant Difference Between Males and Females?
 
-| Metric  | Value       |
-| ------- | ----------- |
-| F-stat  | 2.97        |
-| p-value | 0.0309      |
-| Result  | Significant |
+| Metric  | Value     |
+|--------|-----------|
+| t-stat | 2.10      |
+| p-value| 0.0358    |
+| Result | Significant (moderate) |
 
-### BMI Category (ANOVA)
+**Report:**  
+With p < 0.05, we reject the null hypothesis. Insurance charges differ significantly between males and females, although the effect size is moderate.
 
-| Metric  | Value              |
-| ------- | ------------------ |
-| F-stat  | 18.73              |
-| p-value | 6.66e-12           |
-| Result  | Highly Significant |
+---
+
+## 3. Are Charges Significantly Different Across Regions?
+
+| Metric | Value   |
+|-------|---------|
+| F-stat| 2.97    |
+| p-value| 0.0309 |
+| Result| Significant |
+
+**Report:**  
+Because p < 0.05, we reject the null hypothesis. At least one region has a significantly different average insurance charge compared to others.
+
+---
+
+## 4. Does BMI Category Affect Insurance Charges?
+
+| Metric | Value     |
+|-------|-----------|
+| F-stat| 18.73     |
+| p-value| 6.66e-12 |
+| Result| Highly Significant |
+
+**Report:**  
+Since p << 0.05, we strongly reject the null hypothesis. Insurance charges differ significantly across BMI categories, showing BMI as a major risk factor.
+
 
 ---
 
